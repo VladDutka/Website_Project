@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My CRUD web page</title>
+
+	<!-- External CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	
+	<!-- Internal CSS -->
+	<style>
+		#btnAdd {
+			color:white;
+		}
+	</style>
+	
+	
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">PET SHOP RECORDS || C.R.U.D.</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            About Us
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+	<br><br>
+	<div class="container">
+		<button id="btnAdd" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+		<br><br>
+		<table id="pet-table" class="table table-responsive table-hover table-bordered table-dark table-striped">
+			<thead>
+				<th>Owner Name</th>
+				<th>Pet Name</th>
+				<th>Pet Type</th>
+				<th>Pet Services</th>
+				<th>Instructions</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Jose Rizal</td>
+					<td>Usman</td>
+					<td>Dog</td>
+					<td>Grooming</td>
+					<td>Standard Cut</td>
+					<td><button class="btn btn-info"value= "edit" onClick = "editRow(this);">Edit</button></td>
+					<td><button class="btn btn-danger" onClick = "rowDelete(this);">Delete</button> </td>
+				</tr>			
+			</tbody>			
+		</table>	
+	</div>
+	
+	<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Add Record</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			<form>
+			  <div class="mb-3">
+				<label for="addOwner-name" class="col-form-label">Owner Name:</label>
+				<input type="text" class="form-control" id="addOwner-name">
+			  </div>
+			  <div class="mb-3">
+				<label for="addPet-name" class="col-form-label">Pet Name:</label>
+				<input type="text" class="form-control" id="addPet-name">
+			  </div>
+			  <div class="mb-3">
+				<label for="addPet-type" class="col-form-label">Pet Type:</label>
+				<input type="text" class="form-control" id="addPet-type">
+			  </div>
+			  <div class="mb-3">
+				<label for="addPet-services" class="col-form-label">Pet Services:</label>
+				<select class="form-select" id="addPet-services">
+					<option value="1">Grooming</option>
+					<option value="2">Ear Cleaning</option>
+					<option value="3">Training</option>
+					<option value="4">Vet Services</option>
+					<option value="5">Vaccination</option>
+					<option value="6">Consultation</option>
+					<option value="7">Adoption</option>
+				</select>
+				
+			  </div>
+			  <div class="mb-3">
+				<label for="addInstructions" class="col-form-label">Instructions:</label>
+				<textarea class="form-control" id="addInstructions"></textarea>
+			  </div>
+			</form>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" style="color:red" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			<button type="button" id="save" class="btn btn-primary" onClick="addRow();">Save</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+
+	<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Edit Record</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			<form>
+			  <div class="mb-3">
+				<label for="editOwner-name" class="col-form-label">Owner Name:</label>
+				<input type="text" class="form-control" id="editOwner-name">
+			  </div>
+			  <div class="mb-3">
+				<label for="editPet-name" class="col-form-label">Pet Name:</label>
+				<input type="text" class="form-control" id="editPet-name">
+			  </div>
+			  <div class="mb-3">
+				<label for="editPet-type" class="col-form-label">Pet Type:</label>
+				<input type="text" class="form-control" id="editPet-type">
+			  </div>
+			  <div class="mb-3">
+				<label for="editPet-services" class="col-form-label">Pet Services:</label>
+				<select class="form-select" id="editPet-services">
+					<option value="1">Grooming</option>
+					<option value="2">Ear Cleaning</option>
+					<option value="3">Training</option>
+					<option value="4">Vet Services</option>
+					<option value="5">Vaccination</option>
+					<option value="6">Consultation</option>
+					<option value="7">Adoption</option>
+				</select>
+				
+			  </div>
+			  <div class="mb-3">
+				<label for="editInstructions" class="col-form-label">Instructions:</label>
+				<textarea class="form-control" id="editInstructions"></textarea>
+			  </div>
+			</form>
+		  </div>
+
+		    <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sureModal">Save</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+<div class="modal fade" id="sureModal" tabindex="-1" aria-labelledby="sureModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sureModalLabel">Confirmation on Edit Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to make changes?
+      </div>
+      <div class="modal-footer">
+        <button type="button" style="color:red" id="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="save" class="btn btn-primary" onClick="saveChanges(this);" data-bs-dismiss="modal" >Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+	<script src="crud.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+	<!-- Internal JavaScript -->
+	<script>
+		
+		function showAlert()
+		{
+			alert("My first javascript!");
+		}
+		
+	</script>
+</html>
